@@ -1,0 +1,272 @@
+{
+  "name": "LinkedIn Algerian Entrepreneurs Finder (Universal Free)",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "cd06778e-fb1e-4c75-83db-493f4cbfbb54",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -544,
+        -16
+      ],
+      "webhookId": "18b04230-4ea0-4f9e-bd70-7957613d3d8d",
+      "credentials": {
+        "telegramApi": {
+          "id": "MTDKTjoryFFp76Rh",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "19v0422ijPDEF4VuPQ02vUGylUWqVkrkvMozDOBfQ4TU",
+          "mode": "list",
+          "cachedResultName": "linkdln ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19v0422ijPDEF4VuPQ02vUGylUWqVkrkvMozDOBfQ4TU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19v0422ijPDEF4VuPQ02vUGylUWqVkrkvMozDOBfQ4TU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ $json.name }}",
+            "url": "={{ $json.url }}",
+            "location": "={{ $json.location }}",
+            "role": "={{ $json.role }}",
+            "company": "={{ $json.company }}",
+            "icebreaker": "={{ $json.icebreaker }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "location",
+              "displayName": "location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "role",
+              "displayName": "role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "icebreaker",
+              "displayName": "icebreaker",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "842004be-4323-495f-99a6-94fd7649b489",
+      "name": "Google Sheets Saver",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        512,
+        -16
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0KviXtfKzJ5509Or",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=🎯 *تم اكتمال عملية البحث والأتمتة بنجاح!*\n\nمرحباً بك، لقد قام مساعد الذكاء الاصطناعي بمسح السوق المستهدف واستخراج بيانات رواد الأعمال والمقاولين المطلوبة. تم تنظيف البيانات وتحديثها مباشرة في جدول Google Sheets الخاص بك.\n\n📊 *ملخص العملية (Operation Summary):*\n• 📍 *المنطقة المستهدفة:* {{ $json.location }}\n• 👥 *عدد البروفايلات المستخرجة:* {{ $node[\"Google Sheets Saver\"].runIndex + 1 }} شخص جديد\n• 📅 *الوقت والتاريخ:* {{ new Date().toLocaleString('ar-DZ', { timeZone: 'Africa/Algiers' }) }}\n\n⚙️ *ما تم إنجازه في الجدول:*\n1. استخراج الاسم الكامل ورابط البروفايل المباشر على LinkedIn.\n2. تحديد المنصب الحالي والشركة النشطة.\n3. صياغة رسالة افتتاحية مخصصة (Icebreaker) لكل شخص لزيادة نسبة الرد.\n\n🔗 *يمكنك تصفح القائمة المحدثة والبدء في التواصل عبر الرابط التالي:*\n[اضغط هنا لفتح جدول البيانات في Google Sheets]\n\n🚀 *جاهز للأمر التالي! أرسل اسم الولاية أو المجال لبدء بحث جديد.*",
+        "additionalFields": {}
+      },
+      "id": "0a990ed3-7935-4a26-bb98-7a8a465e66a8",
+      "name": "Telegram Send Report",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        784,
+        -16
+      ],
+      "webhookId": "c73dd49d-2677-4880-bae5-d2c2b138dd40",
+      "credentials": {
+        "telegramApi": {
+          "id": "MTDKTjoryFFp76Rh",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert B2B Lead Generation and OSINT Specialist focused on the Algerian market. \n\nYour task is to analyze the raw search results provided below and extract professional profiles of entrepreneurs, founders, and business owners located in Algiers, Blida, and Tipaza.\n\nRaw Search Results:\n{{ $json.body }}\n\nInstructions:\n1. Parse the text to find valid LinkedIn profile links and the corresponding personal details.\n2. For each profile found, extract the following fields:\n   - Full Name\n   - LinkedIn Profile URL\n   - Exact Location (e.g., Algiers, Blida, Tipaza)\n   - Current Job Title / Role (e.g., Owner, Gérant, Fondateur, CEO)\n   - Company Name\n3. Write a personalized, highly professional \"Icebreaker\" message (in French or Arabic, depending on the profile context) that can be used to initiate a connection on LinkedIn.\n\nYou MUST return the final output strictly as a clean, valid JSON Array of objects with no conversational text or markdown formatting outside the JSON block. Use the following schema:\n[\n  {\n    \"name\": \"Full Name\",\n    \"url\": \"LinkedIn URL\",\n    \"location\": \"City/Province\",\n    \"role\": \"Job Title\",\n    \"company\": \"Company Name\",\n    \"icebreaker\": \"Personalized message to connect\"\n  }\n]{{ $json.message.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -240,
+        -16
+      ],
+      "id": "4fdbb3e7-b830-407f-b428-02225e825f2a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. جلب النص الذي أخرجه الذكاء الاصطناعي\nlet aiOutput = $json.output;\n\n// 2. تنظيف النص في حال قام الذكاء الاصطناعي بوضع علامات الـ Markdown المعتادة مثل ```json ... ```\nif (aiOutput.includes(\"```\")) {\n    aiOutput = aiOutput.split(/```(?:json)?/)[1].split(\"```\")[0].trim();\n} else {\n    aiOutput = aiOutput.trim();\n}\n\ntry {\n    // 3. تحويل النص إلى مصفوفة جيسون حقيقية\n    const profilesArray = JSON.parse(aiOutput);\n    \n    // 4. إرجاع البيانات بالشكل الذي يفهمه n8n ليقوم بإنشاء سطر في الجدول لكل شخص\n    return profilesArray.map(profile => {\n        return {\n            json: {\n                name: profile.name || \"غير متوفر\",\n                url: profile.url || \"غير متوفر\",\n                location: profile.location || \"غير متوفر\",\n                role: profile.role || \"غير متوفر\",\n                company: profile.company || \"غير متوفر\",\n                icebreaker: profile.icebreaker || \"غير متوفر\"\n            }\n        };\n    });\n\n} catch (error) {\n    // في حال حدوث خطأ في هيكلة الجيسون من الـ AI، يتم إرجاع الخطأ لتصحيحه بدلاً من توقف السير\n    return [{\n        json: {\n            error: \"فشل في تحليل الجيسون المستخرج من الذكاء الاصطناعي\",\n            raw_text: aiOutput\n        }\n    }];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        -16
+      ],
+      "id": "7473fe2c-546e-4419-87d1-a11b004db25c",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        288
+      ],
+      "id": "f39b548c-9e85-4760-98f2-2f1829b2490b",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "Y9nu6CxNegBdFR7T",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Saver": {
+      "main": [
+        [
+          {
+            "node": "Telegram Send Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets Saver",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "7c8a5950-bb8b-4821-8c2d-c90d468cff46",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bdfa78c7c3d300bff5ab84f9d3006f653048ec2951ab559dd6dd5557cf86f3ef"
+  },
+  "id": "hDmNdiWWn2wQymML",
+  "tags": []
+}
